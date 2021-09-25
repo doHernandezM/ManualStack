@@ -1,13 +1,13 @@
 # ManualStack
 
-##Manual stack lets you conditionally choose a `VStack` or `HStack`.
+## Manual stack lets you conditionally choose a `VStack` or `HStack`.
 
-Call this just like a normal stack, except pass a ``StackType`` to let it know how to behave. Set the ManualStack's ``Stacktype`` to `Vertical` for a `VStack` and `Horizontal` for and `HStack`.
+Call this just like a normal stack, except pass a ``Bool`` to let it know how to behave. Set the ManualStack's ``isVertical`` to `true` for a `VStack` and `false` for and `HStack`.
 
 Example:
 
 ```swift
-ManualStack(stackType: .Vertical){
+ManualStack(isVertical: true){
     ForEach(allInTheRainbowsColors, id:\.self){ color in
         Rectangle()
             .frame(width: 200.0, height:50.0)

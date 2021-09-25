@@ -27,15 +27,15 @@ public enum StackType {
 ///
 /// I very much stole and butcher this from [Hacking With Swift](https://www.hackingwithswift.com/quick-start/swiftui/how-to-automatically-switch-between-hstack-and-vstack-based-on-size-class)
 public struct ManualStack<Content: View>: View {
-///Set this to ``StackType`` `Vertical` for a `VStack` and `Horizontal` for and `HStack`.
-    public var stackType:StackType = .Vertical
+    ///Set this to ``StackType`` `Vertical` for a `VStack` and `Horizontal` for and `HStack`.
+    public var isVertical:Bool = true
     public let horizontalAlignment: HorizontalAlignment
     public let verticalAlignment: VerticalAlignment
     public let spacing: CGFloat?
     public let content: () -> Content
     
-    public init(stackType:StackType, horizontalAlignment: HorizontalAlignment = .center, verticalAlignment: VerticalAlignment = .center, spacing: CGFloat? = nil, @ViewBuilder content: @escaping () -> Content) {
-        self.stackType = stackType
+    public init(isVertical:Bool, horizontalAlignment: HorizontalAlignment = .center, verticalAlignment: VerticalAlignment = .center, spacing: CGFloat? = nil, @ViewBuilder content: @escaping () -> Content) {
+        self.isVertical = isVertical
         self.horizontalAlignment = horizontalAlignment
         self.verticalAlignment = verticalAlignment
         self.spacing = spacing
@@ -44,7 +44,7 @@ public struct ManualStack<Content: View>: View {
     
     public var body: some View {
         Group {
-            if stackType == .Vertical {
+            if isVertical == true {
                 VStack(alignment: horizontalAlignment, spacing: spacing, content: content)
             } else {
                 HStack(alignment: verticalAlignment, spacing: spacing, content: content)
@@ -55,7 +55,7 @@ public struct ManualStack<Content: View>: View {
 
 struct ContentView: View {
     var body: some View {
-        ManualStack(stackType: .Horizontal) {
+        ManualStack(isVertical: false) {
             Text("""
 Horizontal when there's lots of space\r
 but\r

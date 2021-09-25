@@ -1,6 +1,66 @@
-public struct ManualStack {
-    public private(set) var text = "Hello, World!"
+//
+//  AdaptiveStack.swift
+//  ARPinView
+//
+//  Created by Dennis Hernandez on 9/24/21.
+// https://www.hackingwithswift.com/quick-start/swiftui/how-to-automatically-switch-between-hstack-and-vstack-based-on-size-class
 
-    public init() {
+import SwiftUI
+
+public enum StackType {
+    case Vertical, Horizontal
+}
+
+/// Adaptive stack lets you conditionally choose a vstack or hstack
+///
+/// Call this just like a normal stack, except pass a ``StackType`` to let it know how to behave.
+///
+/// Example:
+///
+///     ManualStack(stackType: .Vertical){
+///         ForEach(allInTheRainbowsColors, id:\.self){ color in
+///             Rectangle()
+///                 .frame(width: 200.0, height:50.0)
+///                 .foregroundColor(color)
+///        }
+///     }
+///
+/// I very much stole and butcher this from [Hacking With Swift](https://www.hackingwithswift.com/quick-start/swiftui/how-to-automatically-switch-between-hstack-and-vstack-based-on-size-class)
+public struct ManualStack<Content: View>: View {
+///Set this to ``StackType`` `Vertical` for a `VStack` and `Horizontal` for and `HStack`.
+    public var stackType:StackType = .Vertical
+    public let horizontalAlignment: HorizontalAlignment
+    public let verticalAlignment: VerticalAlignment
+    public let spacing: CGFloat?
+    public let content: () -> Content
+    
+    public init(stackType:StackType, horizontalAlignment: HorizontalAlignment = .center, verticalAlignment: VerticalAlignment = .center, spacing: CGFloat? = nil, @ViewBuilder content: @escaping () -> Content) {
+        self.stackType = stackType
+        self.horizontalAlignment = horizontalAlignment
+        self.verticalAlignment = verticalAlignment
+        self.spacing = spacing
+        self.content = content
+    }
+    
+    public var body: some View {
+        Group {
+            if stackType == .Vertical {
+                VStack(alignment: horizontalAlignment, spacing: spacing, content: content)
+            } else {
+                HStack(alignment: verticalAlignment, spacing: spacing, content: content)
+            }
+        }
+    }
+}
+
+struct ContentView: View {
+    var body: some View {
+        ManualStack(stackType: .Horizontal) {
+            Text("""
+Horizontal when there's lots of space\r
+but\r
+Vertical when space is restricted
+""")
+        }
     }
 }

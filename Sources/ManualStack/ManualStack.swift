@@ -5,6 +5,8 @@
 //  Created by Dennis Hernandez on 9/24/21.
 // https://www.hackingwithswift.com/quick-start/swiftui/how-to-automatically-switch-between-hstack-and-vstack-based-on-size-class
 
+//JIC we are in linux
+#if os(OSX) || os(iOS) || os(watchOS) || os(tvOS)
 import SwiftUI
 
 public enum StackType {
@@ -64,3 +66,4 @@ Vertical when space is restricted
         }
     }
 }
+#endif
